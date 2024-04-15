@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vector Diagram</title>
+
+  <style>
+    .container{
+      display: grid;
+      grid-template-columns: auto 1fr;
+      padding-top: 20px;
+    }
+
+    .table-column{
+      padding: 10px;
+      grid-column: 1;
+    }
+
+    .canvas-column{
+      padding: 10px;
+      grid-column: 2;
+    }
+
+    canvas{
+      border: 1px solid black;
+    }
+
+    input{
+      width: 80px;
+    }
+    select{
+      width: 120px;
+    }
+
+    label{
+      width: 80px;
+    }
+
+    #title{
+      font-size: 20px;
+    }
+
+    #controls{
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      padding: 5px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+
+
+  </style>
+
+</head>
+
+<body>
+  <header id="title">Phasor Diagram Builder</header>
+    <div class="container">
+      <div class="table-column">
+        <div class="table-container">
+          <!-- table1 for dropdown -->
+            <table class="table" id="table1">
+              <!-- row for Select Meter Form -->
+              <tr>
+                <td colspan="2">
+                  <label for="SelectForm">Select Meter Form:</label>
+                </td>
+                <td>
+                  <select id="MeterFormDropdown">
+                    <option value="">Select</option>
+                    <option value="Form1S">FM1S 1P 2W (SC)</option>
+                    <option value="Form2S">FM2S 1P 3W (SC)</option>
+                    <option value="Form3S">FM3S 1P 2W (IT)</option>
+                    <option value="Form4S">FM4S 1P 3W (IT)</option>
+                    <option value="Form5S-3WYDG">FM5S 3P 3WYDG  2E (IT)</option>
+                    <option value="Form6S-4WY">FM6S 3P 4WY 2E (IT)</option>
+                    <option value="Form8S-4WD">FM8S 3P 4WD 2E (IT)</option>
+                    <option value="Form9S-4WD">FM9S 3P 4WD 3E (IT)</option>
+                    <option value="Form9S-4WY">FM9S 3P 4WY 3E(IT)</option>
+                    <option value="Form12S-3WYDG">FM12S 3P 3WYDG 2E (SC)</option>
+                    <option value="Form14S-4WY">FM14S 3P 4WY 2E (SC)</option>
+                    <option value="Form15S-4WD">FM15S 3P 4WD 2E (SC)</option>
+                    <option value="Form16S-4WY">FM16S 3P 4WY 3E (SC)</option>
+                    
+                  </select>
+                </td>
+              <!-- row for Phase Sequence --> 
+              <tr>  
+                <td colspan="2">
+                  <label for="SelectSequence">Select Phase Sequence:</label>
+                </td>
+                <td>
+                  <select id="PhaseSequenceDropdown">
+                    <option value="">Select</option>
+                    <option value="ABC(123)">ABC(123)</option>
+                    <option value="ACB(132)">ACB(132)</option>
+                  </select>
+                </td>
+            </table>
+          <br>
+
+          <!-- table2 for inputs -->
+            <table class="table" id="table2">
+              <!-- Phase Voltages Inputs Va,Vb,Vc -->
+                <!-- row for Va -->
+                <tr>
+                  <td>
+                    <label for="lineVoltage1">Va:</label>
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltage1Magnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltage1Angle" placeholder="Angle">
+                  </td>
+                <!-- row for Vb -->
+                <tr>
+                  <td>
+                    <label for="lineVoltage2">Vb:</label>
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltage2Magnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltage2Angle" placeholder="Angle">
+                  </td>
+                <!-- row for Vc -->
+                <tr>
+                  <td>
+                    <label for="lineVoltage3">Vc:</label>
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltage3Magnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltage3Angle" placeholder="Angle">
+                  </td>
+              <!-- Phase Currents Inputs Ia,Ib,Ic -->
+                <!-- row for Ia -->
+                <tr>
+                  <td>
+                    <label for="current-Ia">Ia (mA):</label>
+                  </td>
+                  <td>
+                    <input type="number" id="currentIaMagnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="currentIaAngle" placeholder="Angle">
+                  </td>
+                <!-- row for Ib -->
+                <tr>
+                  <td>
+                    <label for="current-Ib">Ib (mA):</label>
+                  </td>
+                  <td>
+                    <input type="number" id="currentIbMagnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="currentIbAngle" placeholder="Angle">
+                  </td>
+                <!-- row for Ic -->
+                <tr>
+                  <td>
+                    <label for="current-Ic">Ic (mA):</label>
+                  </td>
+                  <td>
+                    <input type="number" id="currentIcMagnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="currentIcAngle" placeholder="Angle">
+                  </td>
+              <!-- Line Voltages Inputs VAB,VBC,VCA -->
+                <!-- row for VAB -->
+                <tr>
+                  <td>
+                    <label for="lineVoltageVAB">V<sub>AB</sub>:</label>
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltageVABMagnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltageVABAngle" placeholder="Angle">
+                  </td>
+                <!-- row for VBC -->
+                <tr>
+                  <td>
+                    <label for="lineVoltageVBC">V<sub>BC</sub>:</label>
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltageVBCMagnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltageVBCAngle" placeholder="Angle">
+                  </td>
+                <!-- row for VCA -->
+                <tr>
+                  <td>
+                    <label for="lineVoltageVCA">V<sub>CA</sub>:</label>
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltageVCAMagnitude" placeholder="Magnitude">
+                  </td>
+                  <td>
+                    <input type="number" id="lineVoltageVCAAngle" placeholder="Angle">
+                  </td>
+              <!-- Additional Inputs Phasor1,Phasor2,Phasor3 -->
+                <!-- row for Phasor1 -->
+                  <tr>
+                    <td>
+                      <input type="text" id="Phasor1" placeholder="Name">
+                    </td>
+                    <td>
+                      <input type="number" id="Phasor1Magnitude" placeholder="Magnitude">
+                    </td>
+                    <td>
+                      <input type="number" id="Phasor1Angle" placeholder="Angle">
+                    </td>
+                <!-- row for Phasor2 -->
+                  <tr>
+                    <td>
+                      <input type="text" id="Phasor2" placeholder="Name">
+                    </td>
+                    <td>
+                      <input type="number" id="Phasor2Magnitude" placeholder="Magnitude">
+                    </td>
+                    <td>
+                      <input type="number" id="Phasor2Angle" placeholder="Angle">
+                    </td>
+                <!-- row for Phasor3 -->
+                  <tr>
+                    <td>
+                      <input type="text" id="Phasor3" placeholder="Name">
+                    </td>
+                    <td>
+                      <input type="number" id="Phasor3Magnitude" placeholder="Magnitude">
+                    </td>
+                    <td>
+                      <input type="number" id="Phasor3Angle" placeholder="Angle">
+                    </td>
+            </table>
+          <br>
+        </div>
+      </div>  
+
+      <div class="canvas-column">
+
+        <div id="controls">
+          <button onclick="zoomIn()">Zoom In</button>
+          <button onclick="zoomOut()">Zoom Out</button>
+          <span>Current Scale:<span id="currentScale">100%</span></span><br>
+          <label for="angleIncrement">Rotate Phasors by:</label>
+          <input type="number" id="angleIncrement" value="0">
+          <button id="incrementButton">+</button>
+          <button id="decrementButton">-</button>
+        </div>
+
+        <canvas id="vectorCanvas" width="400px" height="400px"></canvas>
+      </div>
+    </div>
+
+
+
+  <script>
+    const canvas = document.getElementById('vectorCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let scale = 1;
+
+    function degreesToRadians(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawAxes() {
+      ctx.strokeStyle = 'lightgray';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+
+      // X-axis
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height / 2);
+      ctx.lineTo(canvas.width, canvas.height / 2);
+      ctx.stroke();
+
+      // Y-axis
+      ctx.beginPath();
+      ctx.moveTo(canvas.width / 2, 0);
+      ctx.lineTo(canvas.width / 2, canvas.height);
+      ctx.stroke();
+    }
+
+    function drawArrow(startX, startY, endX, endY, color, arrowType = 'open', lineWidth = 1) 
+      {
+        const ctx = document.getElementById('vectorCanvas').getContext('2d');
+        const headLength = 10;
+
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = lineWidth; // Set the line width
+
+        // Draw the line
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+
+        // Draw the arrowhead
+        if (arrowType === 'closed') {
+          const angle = Math.atan2(endY - startY, endX - startX);
+          ctx.moveTo(endX, endY);
+          ctx.lineTo(endX - headLength * Math.cos(angle - Math.PI / 6), endY - headLength * Math.sin(angle - Math.PI / 6));
+          ctx.lineTo(endX - headLength * Math.cos(angle + Math.PI / 6), endY - headLength * Math.sin(angle + Math.PI / 6));
+          ctx.lineTo(endX, endY);
+          ctx.fill();
+        } else { // Open arrowhead by default
+          const angle = Math.atan2(endY - startY, endX - startX);
+          ctx.beginPath();
+          ctx.moveTo(endX, endY);
+          ctx.lineTo(endX - headLength * Math.cos(angle - Math.PI / 6), endY - headLength * Math.sin(angle - Math.PI / 6));
+          ctx.moveTo(endX, endY);
+          ctx.lineTo(endX - headLength * Math.cos(angle + Math.PI / 6), endY - headLength * Math.sin(angle + Math.PI / 6));
+          ctx.stroke();
+        }
+    }
+
+    function drawDashedBrokenLine(x1, y1, x2, y2, color) {
+      const arrowSize = 10;
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+
+      ctx.strokeStyle = color;
+      ctx.beginPath();
+      ctx.setLineDash([5, 5]); // Set dash pattern: 5px on, 5px off
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+
+      ctx.moveTo(x2 - arrowSize * Math.cos(angle - Math.PI / 6), y2 - arrowSize * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(x2, y2);
+      ctx.moveTo(x2 - arrowSize * Math.cos(angle + Math.PI / 6), y2 - arrowSize * Math.sin(angle + Math.PI / 6));
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.setLineDash([]); // Reset to solid line
+    }
+
+    function drawPhasor(name, magnitude, angleDegrees, color, lineStyle) {
+        if (!isNaN(magnitude) && !isNaN(angleDegrees)) 
+          {
+            const ctx = document.getElementById('vectorCanvas').getContext('2d');
+            const x = magnitude * Math.cos((angleDegrees * Math.PI) / 180) * scale;
+            const y = magnitude * Math.sin((angleDegrees * Math.PI) / 180) * scale;
+
+            ctx.lineWidth = (name.startsWith('I')) ? 5 : 1; // Increase line width for Ia, Ib, Ic
+            ctx.strokeStyle = color;
+
+            if (lineStyle === 'dashed') {
+              ctx.setLineDash([5, 5]);
+            } else {
+              ctx.setLineDash([]);
+            }
+
+            if (name.startsWith('I')) {
+              drawArrow(canvas.width / 2, canvas.height / 2, canvas.width / 2 + x, canvas.height / 2 - y, color, 'closed'); // Use 'closed' arrowhead
+            } else {
+              ctx.beginPath();
+              ctx.moveTo(canvas.width / 2, canvas.height / 2);
+              ctx.lineTo(canvas.width / 2 + x, canvas.height / 2 - y);
+              ctx.stroke();
+              drawArrow(canvas.width / 2, canvas.height / 2, canvas.width / 2 + x, canvas.height / 2 - y, color);
+            }
+
+            // Calculate text position (at the arrow's end)
+            const textX = canvas.width / 2 + x + (x >= 0 ? 10 : -10); // Adjust text position based on arrow direction
+            const textY = canvas.height / 2 - y + (y >= 0 ? -10 : 20); // Adjust text position
+
+            ctx.font = '12px Arial';
+            ctx.fillStyle = color;
+            ctx.fillText(name,textX, textY);
+          }
+      }
+
+    function drawPhasorDiagram() {
+      clearCanvas();
+      drawAxes();
+
+      // Fetch inputs and draw phasors
+      const vaMagnitude = parseFloat(document.getElementById('lineVoltage1Magnitude').value);
+      const vaAngle = parseFloat(document.getElementById('lineVoltage1Angle').value);
+      if (!isNaN(vaMagnitude) && !isNaN(vaAngle)) {
+        drawPhasor('Va', vaMagnitude, vaAngle, 'red', 'solid');
+      }
+
+      const vbMagnitude = parseFloat(document.getElementById('lineVoltage2Magnitude').value);
+      const vbAngle = parseFloat(document.getElementById('lineVoltage2Angle').value);
+      if (!isNaN(vbMagnitude) && !isNaN(vbAngle)) {
+        drawPhasor('Vb', vbMagnitude, vbAngle, 'orange', 'solid');
+      }
+
+      const vcMagnitude = parseFloat(document.getElementById('lineVoltage3Magnitude').value);
+      const vcAngle = parseFloat(document.getElementById('lineVoltage3Angle').value);
+      if (!isNaN(vcMagnitude) && !isNaN(vcAngle)) {
+        drawPhasor('Vc', vcMagnitude, vcAngle, 'blue', 'solid');
+      }
+
+      const vabMagnitude = parseFloat(document.getElementById('lineVoltageVABMagnitude').value);
+      const vabAngle = parseFloat(document.getElementById('lineVoltageVABAngle').value);
+      if (!isNaN(vabMagnitude) && !isNaN(vabAngle)) {
+        drawPhasor('VAB', vabMagnitude, vabAngle, 'red', 'dashed');
+      }
+
+      const vbcMagnitude = parseFloat(document.getElementById('lineVoltageVBCMagnitude').value);
+      const vbcAngle = parseFloat(document.getElementById('lineVoltageVBCAngle').value);
+      if (!isNaN(vbcMagnitude) && !isNaN(vbcAngle)) {
+        drawPhasor('VBC', vbcMagnitude, vbcAngle, 'orange', 'dashed');
+      }
+
+      const vcaMagnitude = parseFloat(document.getElementById('lineVoltageVCAMagnitude').value);
+      const vcaAngle = parseFloat(document.getElementById('lineVoltageVCAAngle').value);
+      if (!isNaN(vcaMagnitude) && !isNaN(vcaAngle)) {
+        drawPhasor('VCA', vcaMagnitude, vcaAngle, 'blue', 'dashed');
+      }
+
+      const IaMagnitude = parseFloat(document.getElementById('currentIaMagnitude').value)*100;
+      const IaAngle = parseFloat(document.getElementById('currentIaAngle').value);
+      if (!isNaN(IaMagnitude) && !isNaN(IaAngle)) {
+        drawPhasor('Ia', IaMagnitude, IaAngle, 'red', 'solid', 3);
+      }
+
+      const IbMagnitude = parseFloat(document.getElementById('currentIbMagnitude').value)*100;
+      const IbAngle = parseFloat(document.getElementById('currentIbAngle').value);
+      if (!isNaN(IbMagnitude) && !isNaN(IbAngle)) {
+        drawPhasor('Ib', IbMagnitude, IbAngle, 'orange', 'solid', 3);
+      }
+
+      const IcMagnitude = parseFloat(document.getElementById('currentIcMagnitude').value)*100;
+      const IcAngle = parseFloat(document.getElementById('currentIcAngle').value);
+      if (!isNaN(IcMagnitude) && !isNaN(IcAngle)) {
+        drawPhasor('Ic', IcMagnitude, IcAngle, 'blue', 'solid', 3);
+      }
+
+      const Phasor1name = document.getElementById('Phasor1').value;
+      const Phasor1Magnitude = parseFloat(document.getElementById('Phasor1Magnitude').value);
+      const Phasor1Angle = parseFloat(document.getElementById('Phasor1Angle').value);
+      if (!isNaN(Phasor1Magnitude) && !isNaN(Phasor1Angle)) {
+        drawPhasor(Phasor1name, Phasor1Magnitude, Phasor1Angle, 'lightgreen', 'dashed', 3);
+      }
+
+      const Phasor2name = document.getElementById('Phasor2').value;
+      const Phasor2Magnitude = parseFloat(document.getElementById('Phasor2Magnitude').value);
+      const Phasor2Angle = parseFloat(document.getElementById('Phasor2Angle').value);
+      if (!isNaN(Phasor2Magnitude) && !isNaN(Phasor2Angle)) {
+        drawPhasor(Phasor2name, Phasor2Magnitude, Phasor2Angle, 'purple', 'dashed', 3);
+      }
+
+      const Phasor3name = document.getElementById('Phasor3').value;
+      const Phasor3Magnitude = parseFloat(document.getElementById('Phasor3Magnitude').value);
+      const Phasor3Angle = parseFloat(document.getElementById('Phasor3Angle').value);
+      if (!isNaN(Phasor3Magnitude) && !isNaN(Phasor3Angle)) {
+        drawPhasor(Phasor3name, Phasor3Magnitude, Phasor3Angle, 'purple', 'dashed', 3);
+      }
+    }
+
+
+    function zoomIn() {
+      scale *= 1.1;
+      updateScaleDisplay();
+      drawPhasorDiagram();
+    }
+
+    function zoomOut() {
+      scale /= 1.1;
+      updateScaleDisplay();
+      drawPhasorDiagram();
+    }
+
+    function updateScaleDisplay() {
+      const scaleDisplay = document.getElementById('currentScale');
+      scalePercent = scale *100;
+      scaleDisplay.textContent = scalePercent.toFixed(0) + "%";
+    }
+
+    // Add event listeners to inputs
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('input', drawPhasorDiagram);
+      });
+
+    // Call drawPhasorDiagram initially to draw axes and phasors
+    drawPhasorDiagram();
+
+    //Code for Rotation
+      const angleIncrementInput = document.getElementById('angleIncrement');
+      const incrementButton = document.getElementById('incrementButton');
+      const decrementButton = document.getElementById('decrementButton');
+
+      incrementButton.addEventListener('click', () => {
+        changeAngles(parseFloat(angleIncrementInput.value));
+      });
+
+      decrementButton.addEventListener('click', () => {
+        changeAngles(-parseFloat(angleIncrementInput.value));
+      });
+
+      function changeAngles(increment) {
+        const angleInputs = document.querySelectorAll('input[type="number"][id$="Angle"]');
+        angleInputs.forEach(input => {
+          const currentAngle = parseFloat(input.value);
+          if (!isNaN(currentAngle)) {
+            input.value = (currentAngle + increment).toFixed(2);
+          }
+        });
+
+        drawPhasorDiagram();
+      }
+    // Object to store default values for each meter form and phase sequence
+      const defaultValues = 
+      {
+        'Form1S_ABC(123)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: "", angle: "" },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: "", angle: "" },
+          Ic: { magnitude: "", angle: "" },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form2S_ABC(123)': {
+          Va: { magnitude: "", angle: "" },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: 240, angle: 0   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: 0 },
+          Ic: { magnitude: "", angle: "" },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form3S_ABC(123)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: "", angle: "" },
+          Ic: { magnitude: "", angle: "" },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form4S_ABC(123)': {
+          Va: { magnitude: "", angle: "" },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: 240, angle: 0   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: 180 },
+          Ic: { magnitude: "", angle: "" },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form5S-3WYDG_ABC(123)': {
+          Va: { magnitude: "", angle: "" },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: 240, angle: 0   },
+          VBC: { magnitude: -240, angle: -120 },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: -30 },
+          Ib: { magnitude: "", angle: "" },
+          Ic: { magnitude: 1, angle: 90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form5S-3WYDG_ACB(132)': {
+          Va: { magnitude: "", angle: "" },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: 240, angle: 0   },
+          VBC: { magnitude: -240, angle: 120 },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 30 },
+          Ib: { magnitude: "", angle: "" },
+          Ic: { magnitude: 1, angle: -90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form6S-4WY_ABC(123)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: 240, angle: 120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: 60 },
+          Ic: { magnitude: 1, angle: 120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form6S-4WY_ACB(132)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: 240, angle: -120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: -60 },
+          Ic: { magnitude: 1, angle: -120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form8S-4WD_ABC(123)': {
+          Va: { magnitude: 120, angle: 0 },
+          Vb: { magnitude: 120, angle: 180 },
+          Vc: { magnitude: 208, angle: 90 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: -30 },
+          Ib: { magnitude: 1, angle: -150 },
+          Ic: { magnitude: 1, angle: 90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form8S-4WD_ACB(132)': {
+          Va: { magnitude: 120, angle: 0 },
+          Vb: { magnitude: 120, angle: 180 },
+          Vc: { magnitude: 208, angle: -90 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 30 },
+          Ib: { magnitude: 1, angle: 150 },
+          Ic: { magnitude: 1, angle: -90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form9S-4WD_ABC(123)': {
+          Va: { magnitude: 120, angle: 0 },
+          Vb: { magnitude: 120, angle: 180 },
+          Vc: { magnitude: 208, angle: 90 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: -30 },
+          Ib: { magnitude: 1, angle: -150 },
+          Ic: { magnitude: 1, angle: 90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form9S-4WD_ACB(132)': {
+          Va: { magnitude: 120, angle: 0 },
+          Vb: { magnitude: 120, angle: 180 },
+          Vc: { magnitude: 208, angle: -90 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 30 },
+          Ib: { magnitude: 1, angle: 150 },
+          Ic: { magnitude: 1, angle: -90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form9S-4WY_ABC(123)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: 240, angle: -120 },
+          Vc: { magnitude: 240, angle: 120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: -120 },
+          Ic: { magnitude: 1, angle: 120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form9S-4WY_ACB(132)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: 240, angle: 120 },
+          Vc: { magnitude: 240, angle: -120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: 120 },
+          Ic: { magnitude: 1, angle: -120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form12S-3WYDG_ABC(123)': {
+          Va: { magnitude: "", angle: "" },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: 240, angle: 0   },
+          VBC: { magnitude: -240, angle: -120 },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: -30 },
+          Ib: { magnitude: "", angle: "" },
+          Ic: { magnitude: 1, angle: 90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form12S-3WYDG_ACB(132)': {
+          Va: { magnitude: "", angle: "" },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: "", angle: "" },
+          VAB: { magnitude: 240, angle: 0   },
+          VBC: { magnitude: -240, angle: 120 },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 30 },
+          Ib: { magnitude: "", angle: "" },
+          Ic: { magnitude: 1, angle: -90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form14S-4WY_ABC(123)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: 240, angle: 120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: 60 },
+          Ic: { magnitude: 1, angle: 120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form14S-4WY_ACB(132)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: "", angle: "" },
+          Vc: { magnitude: 240, angle: -120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: -60 },
+          Ic: { magnitude: 1, angle: -120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form15S-4WD_ABC(123)': {
+          Va: { magnitude: 120, angle: 0 },
+          Vb: { magnitude: 120, angle: 180 },
+          Vc: { magnitude: 208, angle: 90 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: -30 },
+          Ib: { magnitude: 1, angle: -150 },
+          Ic: { magnitude: 1, angle: 90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form15S-4WD_ACB(132)': {
+          Va: { magnitude: 120, angle: 0 },
+          Vb: { magnitude: 120, angle: 180 },
+          Vc: { magnitude: 208, angle: -90 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 30 },
+          Ib: { magnitude: 1, angle: 150 },
+          Ic: { magnitude: 1, angle: -90 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form16S-4WY_ABC(123)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: 240, angle: -120 },
+          Vc: { magnitude: 240, angle: 120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: -120 },
+          Ic: { magnitude: 1, angle: 120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+        'Form16S-4WY_ACB(132)': {
+          Va: { magnitude: 240, angle: 0 },
+          Vb: { magnitude: 240, angle: 120 },
+          Vc: { magnitude: 240, angle: -120 },
+          VAB: { magnitude: "", angle: ""   },
+          VBC: { magnitude: "", angle: "" },
+          VCA: { magnitude: "", angle: ""  },
+          Ia: { magnitude: 1, angle: 0 },
+          Ib: { magnitude: 1, angle: 120 },
+          Ic: { magnitude: 1, angle: -120 },
+          P1: { magnitude: "", angle: "" , name: "" },
+          P2: { magnitude: "", angle: "" , name: "" },
+          P3: { magnitude: "", angle: "" , name: "" },
+        },
+      }
+
+    // Function to populate input fields based on the selected form and sequence
+function populateDefaultValues() {
+  const formDropdown = document.getElementById('MeterFormDropdown');
+  const sequenceDropdown = document.getElementById('PhaseSequenceDropdown');
+
+  const selectedForm = formDropdown.value;
+  const selectedSequence = sequenceDropdown.value;
+
+  const defaultKey = `${selectedForm}_${selectedSequence}`;
+
+  if (defaultValues[defaultKey]) {
+    const defaultFormValues = defaultValues[defaultKey];
+
+    // Set values for Va, Vb, Vc inputs based on default values
+    document.getElementById('lineVoltage1Magnitude').value = defaultFormValues.Va.magnitude;
+    document.getElementById('lineVoltage1Angle').value = defaultFormValues.Va.angle;
+    document.getElementById('lineVoltage2Magnitude').value = defaultFormValues.Vb.magnitude;
+    document.getElementById('lineVoltage2Angle').value = defaultFormValues.Vb.angle;
+    document.getElementById('lineVoltage3Magnitude').value = defaultFormValues.Vc.magnitude;
+    document.getElementById('lineVoltage3Angle').value = defaultFormValues.Vc.angle;
+    document.getElementById('lineVoltageVABMagnitude').value = defaultFormValues.VAB.magnitude;
+    document.getElementById('lineVoltageVABAngle').value = defaultFormValues.VAB.angle;
+    document.getElementById('lineVoltageVBCMagnitude').value = defaultFormValues.VBC.magnitude;
+    document.getElementById('lineVoltageVBCAngle').value = defaultFormValues.VBC.angle;
+    document.getElementById('lineVoltageVCAMagnitude').value = defaultFormValues.VCA.magnitude;
+    document.getElementById('lineVoltageVCAAngle').value = defaultFormValues.VCA.angle;
+    document.getElementById('currentIaMagnitude').value = defaultFormValues.Ia.magnitude;
+    document.getElementById('currentIaAngle').value = defaultFormValues.Ia.angle;
+    document.getElementById('currentIbMagnitude').value = defaultFormValues.Ib.magnitude;
+    document.getElementById('currentIbAngle').value = defaultFormValues.Ib.angle;
+    document.getElementById('currentIcMagnitude').value = defaultFormValues.Ic.magnitude;
+    document.getElementById('currentIcAngle').value = defaultFormValues.Ic.angle;
+    document.getElementById('Phasor1').value = defaultFormValues.P1.name;
+    document.getElementById('Phasor1Magnitude').value = defaultFormValues.P1.magnitude;
+    document.getElementById('Phasor1Angle').value = defaultFormValues.P1.angle;
+    document.getElementById('Phasor2').value = defaultFormValues.P2.name;
+    document.getElementById('Phasor2Magnitude').value = defaultFormValues.P2.magnitude;
+    document.getElementById('Phasor2Angle').value = defaultFormValues.P2.angle;
+    document.getElementById('Phasor3').value = defaultFormValues.P3.name;
+    document.getElementById('Phasor3Magnitude').value = defaultFormValues.P3.magnitude;
+    document.getElementById('Phasor3Angle').value = defaultFormValues.P3.angle;
+  }
+
+
+  // Draw the phasor diagram after populating default values
+  drawPhasorDiagram();
+}
+
+
+
+      // Event listener for MeterFormDropdown change
+      document.getElementById('MeterFormDropdown').addEventListener('change', populateDefaultValues);
+
+      // Event listener for PhaseSequenceDropdown change
+      document.getElementById('PhaseSequenceDropdown').addEventListener('change', populateDefaultValues);
+
+      
+
+  </script>
+</body>
+</html>
